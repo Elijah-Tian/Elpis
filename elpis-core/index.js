@@ -38,32 +38,32 @@ module.exports = {
     app.env = env();
     console.log(`-- [start] env: ${app.env.get()} --`);
 
-    //加载 midedleware
+    //挂载 midedleware  中间件层 目前放了api的一些校验需求，签名、参数验证、错误处理等
     middlewareLoader(app);
     console.log(`-- [start] load middleware done --`);
 
-    //加载 routerSchema
+    //挂载 routerSchema  路由架构层  放了路由的规则
     routerSchemaLoader(app);
     console.log(`-- [start] load routerSchema done --`);
 
-    //加载 controller
+    //挂载 controller  控制层  一般放业务API  如 获取用户信息、页面渲染等
     controllerLoader(app);
     console.log(`-- [start] load controller done --`);
 
-    //加载 service
+    //挂载 service  服务层  通常是操作数据库的接口、调用第三方接口的接口等
     serviceLoader(app);
     console.log(`-- [start] load service done --`);
 
-    //加载 config
+    //挂载 config   配置层 如 开发环境、测试环境、生产环境等
     configLoader(app);
     console.log(`-- [start] load config done --`);
     // console.log(app.config);
 
-    //加载 extend
+    //挂载 extend   工具层 如日志、缓存、工具类等
     extendLoader(app);
     console.log(`-- [start] load extend done --`);
 
-    //注册全局中间件
+    //注册(使用)全局中间件  即 用户自定义中间件
     try {
       require(`${app.businessPath}${sep}middleware.js`)(app);
       console.log(`-- [start] load global middleware done --`);
@@ -71,7 +71,7 @@ module.exports = {
       console.log("[exception] there is no global middleware file");
     }
 
-    //加载 router
+    //挂载 router  路由曾  加载路由
     routerLoader(app);
     console.log(`-- [start] load router done --`);
 
@@ -84,5 +84,7 @@ module.exports = {
     } catch (error) {
       console.error(error);
     }
+
+    return app
   },
 };

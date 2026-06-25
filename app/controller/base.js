@@ -18,7 +18,7 @@ module.exports = (app) =>
     success(ctx, data = {}, metadata = {}) {
       ctx.status = 200;
       ctx.body = {
-        sucess: true,
+        success: true,
         data,
         metadata,
       };

@@ -39,8 +39,9 @@ glob.sync(entryList).forEach((file) => {
 module.exports = {
   // 入口配置
   entry: {
-    "entry.page1": "./app/pages/page1/entry.page1.js",
-    "entry.page2": "./app/pages/page2/entry.page2.js",
+    // "entry.page1": "./app/pages/page1/entry.page1.js",
+    // "entry.page2": "./app/pages/page2/entry.page2.js",
+    ...pageEntries
   },
   // 模块解析配置(决定了要加载解析哪些模块，以及用什么方式解析)
   module: {

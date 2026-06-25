@@ -66,7 +66,7 @@ module.exports = (app) => {
       ctx.body = {
         success: false,
         message: `request validate fail: ${ajv.errorsText(validate.errors)}`,
-        code: 445,
+        code: 442,
       };
       return;
     }
