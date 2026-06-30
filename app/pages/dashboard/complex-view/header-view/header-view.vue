@@ -8,10 +8,11 @@
         mode="horizontal"
         @select="onMenuSelect"
       >
-        <template v-for="item in menuStore.menuList" :key="item.key">
+        <template v-for="item in menuStore.menuList">
           <SubMenu
             v-if="item.subMenu && item.subMenu.length > 0"
             :menuItem="item"
+             :key="item.key"
           ></SubMenu>
           <el-menu-item v-else :index="item.key">
             {{ item.name }}
@@ -63,7 +64,7 @@ const route = useRoute();
 const menuStore = useMenuStore();
 const projectStore = useProjectStore();
 
-const props = defineProps({
+defineProps({
   projName: String,
 });
 
@@ -71,12 +72,12 @@ const emit = defineEmits(["menu-select"]);
 
 const activeKey = ref("");
 
-// watch(
-//   () => route.query.key,
-//   () => {
-//     setActiveKey();
-//   },
-// );
+watch(
+  () => route.query.key,
+  () => {
+    setActiveKey();
+  },
+);
 
 watch(
   () => menuStore.menuList,

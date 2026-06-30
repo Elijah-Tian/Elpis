@@ -43,7 +43,7 @@
 import { onMounted, ref } from "vue";
 import $curl from "$common/curl.js";
 import headerContainer from "$widgets/header-container/header-container.vue";
-import Dashboard from "../dashboard/dashboard.vue";
+// import Dashboard from "../dashboard/dashboard.vue";
 
 const loading = ref(false);
 
@@ -57,12 +57,9 @@ async function getModelList() {
   });
   loading.value = false;
 
-  if (!res || !res.success || !res.data) {
-    return;
-  }
+  if (!res || !res.success || !res.data) return;
 
   modelList.value = res.data;
-  
 }
 
 const onEnter = (projItem) => {

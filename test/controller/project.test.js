@@ -78,10 +78,10 @@ describe("测试project 相关接口", function () {
 
       if (menuItem.menuType === "group") {
         assert(menuItem.subMenu !== undefined);
-        menuItem.sunMenu.forEach((subMenuItem) => {
-          assert(menuItem.key);
-          assert(menuItem.name);
-          assert(menuItem.menuType === "module");
+        menuItem.subMenu.forEach((subMenuItem) => {
+          assert(subMenuItem.key);
+          assert(subMenuItem.name);
+          assert(subMenuItem.menuType === "module");
           checkModule(subMenuItem);
         });
       }

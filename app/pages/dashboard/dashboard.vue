@@ -67,9 +67,7 @@ const onMenuSelect = function (menuItem) {
   const { moduleType, key, customConfig } = menuItem;
 
   //如果是当前页面，不处理
-  if (key === route.query.key) {
-    return;
-  }
+  if (key === route.query.key) return;
 
   const pathMap = {
     sider: "/sider",

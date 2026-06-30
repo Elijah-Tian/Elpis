@@ -26,7 +26,7 @@ const webpackConfig = merge.smart(baseConfig, {
   output: {
     filename: "js/[name]_[chunkhash:8].bundle.js",
     path: path.join(process.cwd(), "./app/public/dist/prod"),
-    publicPath: "/dist/prod",
+    publicPath: "/dist/prod/",
     crossOriginLoading: "anonymous", //跨域配置
   },
   module: {
@@ -93,12 +93,12 @@ const webpackConfig = merge.smart(baseConfig, {
     }),
   ],
   optimization: {
-    // 使用 Terse人Plugin 的并发和缓存，提升压缩阶段的性能
+    // 使用 TerserPlugin 的并发和缓存，提升压缩阶段的性能
     // 清楚 console.log
     minimize: true,
     minimizer: [
       new TreserWepackPlugin({
-        cache: true, // 启用缓存来加速构建过程
+        // cache: true, // 启用缓存来加速构建过程  5.x 的 API 里 不再有 cache 选项（缓存由 webpack 5 自己管）
         parallel: true, // 利用多核 CPU 的优势来加快压缩速度
         terserOptions: {
           compress: {

@@ -26,12 +26,12 @@ export const useMenuStore = defineStore("menu", () => {
 
       const { menuType, moduleType } = menuItem;
 
-      if (menuItem[key] === value)  return menuItem;
+      if (menuItem[key] === value) return menuItem;
 
       if (menuType === "group" && menuItem.subMenu) {
         const mItem = findMenuItem({ key, value }, menuItem.subMenu);
-        if (mItem) mItem;
-        return
+        if (mItem) return mItem;
+        return;
       }
 
       if (
@@ -40,8 +40,8 @@ export const useMenuStore = defineStore("menu", () => {
         menuItem.siderConfig.menu
       ) {
         const mItem = findMenuItem({ key, value }, menuItem.siderConfig.menu);
-        if (mItem) mItem;
-        return
+        if (mItem) return mItem;
+        return;
       }
     }
   };
