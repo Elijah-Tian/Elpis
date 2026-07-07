@@ -46,12 +46,49 @@ const a = {
           properties: {
             key: {
               ...schema, // 标准 schema 配置
-              type: "", // 子u按类型
+              type: "", // 字段类型
               label: "", // 字段的中文名
+              // 字段在 tabel 中的相关配置
+              tableOption: {
+                ...elTableColumnConfig, // 标准 el-table-column 配置
+                toFixed: 0, // 保留小数点后几位
+                visiable: true, // 默认为 true（false时，表示不在表单中显示）
+              },
+              // 字段在 search-bar 中的相关配置
+              searchOption :{
+                ...eleComponentConfig, // 标准 el-component-config
+                comType: '', // 配置组件类型 input/select/...
+                default: '', // 默认值
+              }
             },
           },
         },
-        tableConfig: {}, // table 相关配置
+        // table 相关配置
+        tableConfig: {
+          headerButtons: [
+            {
+              label: "", // 按钮名
+              eventKey: "", // 按钮事件名
+              eventOption: {}, // 按钮具体配置
+              ...elButtonConfig, // 标准的 el-button 配置
+            },
+          ],
+          rowButtons: [
+            {
+              label: "", // 按钮名
+              eventKey: "", // 按钮事件名
+              eventOption: {
+                // 当 eventKey === 'remove'
+                params: {
+                  // paramKey = 参数的键值
+                  // rowValueKey = 参数值，格式为 schema::xxx 的时候，在 table 中找相应字段
+                  paramKey: rowValueKey,
+                },
+              }, // 按钮事件具体配置
+              ...elButtonConfig, // 标准的 el-button 配置
+            },
+          ],
+        },
         searchConfig: {}, // search-bar 相关配置
         components: {}, // 模块组件
       },

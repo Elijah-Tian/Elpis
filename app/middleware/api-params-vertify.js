@@ -8,8 +8,8 @@ module.exports = (app) => {
   const $schema = "http://json-schema.org/draft-07/schema#";
 
   return async (ctx, next) => {
-    //只对 API 请求做签名校验
-    if (ctx.path.indexOf("/api") < 0) {
+    //只对 API 请求做参数校验
+    if (ctx.path.indexOf("/api/") < 0) {
       return await next();
     }
 

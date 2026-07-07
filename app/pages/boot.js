@@ -8,7 +8,7 @@ import "element-plus/theme-chalk/dark/css-vars.css";
 import "./asserts/custom.css";
 
 import pinia from "$store";
-import { createWebHashHistory, createRouter } from "vue-router";
+import { createWebHistory, createRouter } from "vue-router";
 
 /**
  * vue 页面主入口，用于启动 vue
@@ -34,7 +34,7 @@ export default (pageComponent, { routes, libs } = {}) => {
   // 页面路由
   if (routes && routes.length) {
     const router = createRouter({
-      history: createWebHashHistory(), // 采用哈希模式
+      history: createWebHistory(), // 采用 hisstory 模式
       routes,
     });
     app.use(router);

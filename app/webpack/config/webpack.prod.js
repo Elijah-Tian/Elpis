@@ -94,7 +94,7 @@ const webpackConfig = merge.smart(baseConfig, {
   ],
   optimization: {
     // 使用 TerserPlugin 的并发和缓存，提升压缩阶段的性能
-    // 清楚 console.log
+    // 清除 console.log
     minimize: true,
     minimizer: [
       new TreserWepackPlugin({

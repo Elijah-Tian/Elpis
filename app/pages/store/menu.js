@@ -31,7 +31,7 @@ export const useMenuStore = defineStore("menu", () => {
       if (menuType === "group" && menuItem.subMenu) {
         const mItem = findMenuItem({ key, value }, menuItem.subMenu);
         if (mItem) return mItem;
-        return;
+        continue;
       }
 
       if (
@@ -41,14 +41,29 @@ export const useMenuStore = defineStore("menu", () => {
       ) {
         const mItem = findMenuItem({ key, value }, menuItem.siderConfig.menu);
         if (mItem) return mItem;
-        return;
+        continue;
       }
     }
   };
+
+  /**
+   * 找出菜单第一项
+   * @param {object} mList 菜单列表 
+   */
+  const findFirstMenuItem = function (mList = menuList.value) {
+    if(!mList || !mList[0]) {return}
+    let firstMenuItem = mList[0];
+    if(firstMenuItem.subMenu) {
+      firstMenuItem = findFirstMenuItem(firstMenuItem.subMenu)
+    }
+
+    return firstMenuItem
+  }
 
   return {
     menuList,
     setMenuList,
     findMenuItem,
+    findFirstMenuItem
   };
 });

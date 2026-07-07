@@ -3,6 +3,7 @@ import { ElMessage } from "element-plus";
 
 /**
  * 前端封装 curl 方法
+ * @params options 请求参数
  */
 const curl = ({
   url, // 请求地址
@@ -18,6 +19,16 @@ const curl = ({
   const signKey = "askjdnl58k6uhzv55s32n2f132aej";
   const st = Date.now();
 
+  const dtoHeaders = {
+    ...headers,
+    s_t: st,
+    s_sign: md5(`${signKey}_${st}`),
+  };
+
+  if (url.indexOf("/api/proj/") > -1 && window.projKey) {
+    dtoHeaders.proj_key = window.projKey;
+  }
+
   // 构造请求参数（把参数转换为 axios 参数）
   const ajaxStting = {
     url,
@@ -26,11 +37,7 @@ const curl = ({
     data,
     responseType,
     timeout,
-    headers: {
-      ...headers,
-      s_t: st,
-      s_sign: md5(`${signKey}_${st}`),
-    },
+    headers: dtoHeaders,
   };
 
   return axios
@@ -49,6 +56,8 @@ const curl = ({
           ElMessage.error("请求参数异常");
         } else if (code === 445) {
           ElMessage.error("请求不合法");
+        } else  if (code === 446) {
+          ElMessage.error("功能代码有误！缺少projKey");
         } else if (code === 50000) {
           ElMessage.error(message);
         }
@@ -63,7 +72,7 @@ const curl = ({
       return Promise.resolve({ success, data, metadata });
     })
     .catch((error) => {
-      const { message } = error;
+      const message = error?.message || "网络异常";
 
       if (message.match(/timeout/)) {
         return Promise.resolve({
@@ -72,6 +81,7 @@ const curl = ({
         });
       }
 
+      ElMessage.error(errorMessage);
       return Promise.resolve(error);
     });
 };

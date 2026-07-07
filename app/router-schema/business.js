@@ -1,0 +1,29 @@
+module.exports = {
+  "/api/proj/product/list": {
+    get: {
+      type: "object",
+      properties: {
+        page: {
+          type: "string",
+        },
+        size: {
+          type: "string",
+        },
+      },
+      required: ["page", "size"],
+    },
+  },
+  "/api/proj/product": {
+    delete: {
+      body: {
+        type: "object",
+        properties: {
+          product_id: {
+            type: "string",
+          },
+        },
+        required: ["product_id"],
+      },
+    },
+  },
+};
