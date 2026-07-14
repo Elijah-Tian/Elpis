@@ -18,6 +18,7 @@
       ref="schemaTabelRef"
       :schema="tableSchema"
       :api="api"
+      :apiParams="apiParams"
       :buttons="tableConfig?.rowButtons ?? []"
       @operate="operationHandler"
     ></schema-table>
@@ -32,7 +33,7 @@ import { ElMessageBox, ElNotification } from "element-plus";
 
 const emit = defineEmits(["operate"]);
 
-const { api, tableSchema, tableConfig } = inject("schemaViewData");
+const { api,apiParams, tableSchema, tableConfig } = inject("schemaViewData");
 
 const schemaTabelRef = ref(null);
 
@@ -102,9 +103,14 @@ const initTableData = async () => {
   await schemaTabelRef.value.initData();
 };
 
-// const loadTableData = async () => {
-//   await schemaTabelRef.value.loadTableData();
-// };
+const loadTableData = async () => {
+  await schemaTabelRef.value.loadTableData();
+};
+
+defineExpose({
+  loadTableData,
+  initTableData
+})
 </script>
 <style lang="less" scoped>
 :deep(.el-card__body) {

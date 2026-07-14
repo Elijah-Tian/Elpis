@@ -1,7 +1,7 @@
 <template>
   <el-form
     v-if="schema && schema.properties"
-    :inlint="true"
+    :inline="true"
     class="schema-search-bar"
   >
     <!-- 动态组件 -->
@@ -12,8 +12,8 @@
     >
       <!-- 展示子组件 -->
       <component
-        :ref="handleSearchComList"
-        :is="SearchItemConfig[schemaItem.option?.comType?.component]"
+        :ref="searchComList"
+        :is="SearchItemConfig[schemaItem.option?.comType]?.component"
         :schemaKey="key"
         :schema="schemaItem"
         @loaded="handleChildLoaded"
@@ -21,7 +21,7 @@
     </el-form-item>
     <!-- 操作区域 -->
     <el-form-item>
-      <el-button type="primary" plan class="search-btn" @click="search"
+      <el-button type="primary" plain class="search-btn" @click="search"
         >搜索</el-button
       >
       <el-button plain class="reset-btn" @click="reset">重置</el-button>
@@ -30,7 +30,7 @@
 </template>
 <script setup>
 import { ref, toRefs } from "vue";
-import SearchItemConfig from "./search-item.config";
+import SearchItemConfig from "./search-item-config";
 
 const props = defineProps({
   /**
@@ -46,7 +46,7 @@ const props = defineProps({
               tableOption: {
                 ...elTableColumnConfig, // 标准 el-table-column 配置
                 toFixed: 0, // 保留小数点后几位
-                visiable: true, // 默认为 true（false时，表示不在表单中显示）
+                visible: true, // 默认为 true（false时，表示不在表单中显示）
               },
               // 字段在 search-bar 中的相关配置
               searchOption :{
@@ -66,9 +66,6 @@ const { schema } = toRefs(props);
 const emit = defineEmits(["load", "search", "reset"]);
 
 const searchComList = ref([]);
-const handleSearchComList = (el) => {
-  searchComList.value.push(el);
-};
 
 const getValue = () => {
   let dtoObj = {};
@@ -90,7 +87,7 @@ const handleChildLoaded = () => {
 };
 
 const search = () => {
-  emit("search");
+  emit("search", getValue());
 };
 
 const reset = () => {
@@ -106,6 +103,17 @@ defineExpose({
 <style lang="less" scoped>
 .schema-search-bar {
   min-width: 500px;
+  .input {
+    width: 280px;
+  }
+
+  .select {
+    width: 180px;
+  }
+
+  .dynamic-select {
+    width: 180px;
+  }
 
   .search-btn {
     width: 100px;

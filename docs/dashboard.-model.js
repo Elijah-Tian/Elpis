@@ -4,7 +4,6 @@ const a = {
   desc: "", // 描述
   icon: "", // 图标icon
   homePage: "", // 首页（项目配置）
-
   menu: [
     {
       key: "", //菜单唯一描述
@@ -17,10 +16,8 @@ const a = {
           // 可递归 menuItem
         },
       ],
-
       // 当 menuType == module 时，可填
       moduleType: "", // 枚举值： sider/iframe/custom/schema
-
       // 当 moduleType == sider 时
       siderConfig: {
         menu: [
@@ -48,20 +45,53 @@ const a = {
               ...schema, // 标准 schema 配置
               type: "", // 字段类型
               label: "", // 字段的中文名
+              maxLength: Number, // 字段限制（最大长度）
               // 字段在 tabel 中的相关配置
               tableOption: {
                 ...elTableColumnConfig, // 标准 el-table-column 配置
                 toFixed: 0, // 保留小数点后几位
-                visiable: true, // 默认为 true（false时，表示不在表单中显示）
+                visible: true, // 默认为 true（false时，表示不在表单中显示）
               },
               // 字段在 search-bar 中的相关配置
-              searchOption :{
+              searchOption: {
                 ...eleComponentConfig, // 标准 el-component-config
-                comType: '', // 配置组件类型 input/select/...
-                default: '', // 默认值
+                comType: "", // 配置组件类型 input/select/...
+                default: "", // 默认值
+                // 当 comType === 'select'
+                enumList: [], // 下拉框可选项
+                // 当 comType === 'dynamicSelect'
+                api: "",
+              },
+              // 字段再不同动态 component 中的相关配置，前缀对应 componentComfig 中的键值
+              // 如：componentConfig.createForm，这里对应 createFormOption
+              // 字段在 createForm 中相关配置
+              createFormOption: {
+                ...eleComponentConfig, // 标准 el-component-config
+                conType: "", //控件类型 input/select/input-number 等
+                visible: true, // 是否展示 (true/false)，默认为 true
+                disabled: false, // 是否禁用 (true/false)，默认为 false
+                default: "", // 默认值
+
+                // comType === 'select'时生效
+                enumList: [], // 枚举列表
+              },
+              // 字段在 editForm 表单中的相关配置
+              editFormOption: {
+                ...eleComponentConfig, // 标准 el-component-config
+                conType: "", //控件类型 input/select/input-number 等
+                visible: true, // 是否展示 (true/false)，默认为 true
+                disabled: false, // 是否禁用 (true/false)，默认为 false
+                default: "", // 默认值
+
+                // comType === 'select'时生效
+                enumList: [], // 枚举列表
+              },
+              detailPanelOption:{
+                ...eleComponentConfig, // 标准 el-component-config
               }
             },
           },
+          required: [], // 标记哪些字段是必填项
         },
         // table 相关配置
         tableConfig: {
@@ -69,7 +99,11 @@ const a = {
             {
               label: "", // 按钮名
               eventKey: "", // 按钮事件名
-              eventOption: {}, // 按钮具体配置
+              // 按钮具体配置
+              eventOption: {
+                // 当 eventKey === 'showComponent'
+                comName: "", // 组件名称
+              },
               ...elButtonConfig, // 标准的 el-button 配置
             },
           ],
@@ -78,6 +112,8 @@ const a = {
               label: "", // 按钮名
               eventKey: "", // 按钮事件名
               eventOption: {
+                // 当 eventKey === 'showComponent'
+                comName: "", // 组件名称
                 // 当 eventKey === 'remove'
                 params: {
                   // paramKey = 参数的键值
@@ -89,8 +125,28 @@ const a = {
             },
           ],
         },
-        searchConfig: {}, // search-bar 相关配置
-        components: {}, // 模块组件
+        // search-bar 相关配置
+        searchConfig: {},
+        //  动态组件 相关配置
+        componentConfig: {
+          // create-form 表单相关配置
+          createForm: {
+            title: "", // 表单标题
+            saveBtnText: "", // 保存按钮文案
+          },
+          // edit-form 表单相关配置
+          editForm: {
+            mainKey: "", // 表单逐渐，用于唯一标识要修改的数据对象
+            title: "", // 表单标题
+            saveBtnText: "", // 保存按钮文案
+          },
+          // detail-panel 相关配置
+          detailPanel:{
+            mainKey: "", // 表单逐渐，用于唯一标识要修改的数据对象
+            title: "", // 表单标题
+          }
+          // 支持用户动态拓展
+        },
       },
     },
   ],

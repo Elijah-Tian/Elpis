@@ -7,10 +7,12 @@ export const useSchema = function () {
   const menuStore = useMenuStore();
 
   const api = ref("");
+  const apiParams = ref({});
   const tableSchema = ref({});
   const tableConfig = ref({});
   const searchSchema = ref({});
   const searchConfig = ref({});
+  const components = ref({});
 
   // 构造 schemaConfig 相关配置，输送给 schemaView 解析
   const buildData = function () {
@@ -31,10 +33,12 @@ export const useSchema = function () {
       // tableConfig.value = undefined;
       // searchSchema.value = {};
       // searchConfig.value = undefined;
+      // components.value = {};
       nextTick(() => {
         // 构造 tableSchema 和 tableConfig
         tableSchema.value = buildDtoSchema(configSchema, "table");
         tableConfig.value = sConfig.tableConfig;
+
         // 构造 searchSchema 和 searchConfig
         const dtoSearchSchema = buildDtoSchema(configSchema, "search");
         for (const key in dtoSearchSchema.properties) {
@@ -44,6 +48,20 @@ export const useSchema = function () {
         }
         searchSchema.value = dtoSearchSchema;
         searchConfig.value = sConfig.searchConfig;
+
+        // 构造 components = { comKey: { schema:{}, config:{} } }
+        const { componentConfig } = sConfig;
+        if (componentConfig && Object.keys(componentConfig).length > 0) {
+          const dtoComponents = {};
+
+          for (const comName in componentConfig) {
+            dtoComponents[comName] = {
+              schema: buildDtoSchema(configSchema, comName),
+              config: componentConfig[comName],
+            };
+          }
+          components.value = dtoComponents;
+        }
       });
     }
   };
@@ -74,6 +92,13 @@ export const useSchema = function () {
         dtoProps = Object.assign({}, dtoProps, {
           option: props[`${comName}Option`],
         });
+
+        // 处理 required 字段
+        const { required } = _schema;
+        if (required && required.find((pk) => pk === key)) {
+          dtoProps.option.required = true;
+        }
+
         dtoSchema.properties[key] = dtoProps;
       }
     }
@@ -99,9 +124,11 @@ export const useSchema = function () {
 
   return {
     api,
+    apiParams,
     tableSchema,
     tableConfig,
     searchSchema,
     searchConfig,
+    components,
   };
 };

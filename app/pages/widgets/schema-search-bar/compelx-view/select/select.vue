@@ -1,8 +1,15 @@
 <template>
-  <el-input v-model="dtoValue" v-bind="schema.option" class="input"></el-input>
+  <el-select v-model="dtoValue" v-bind="schema.option" class="select">
+    <el-option
+      v-for="item in schema.option?.enumList"
+      :key="item.value"
+      :label="item.label"
+      :value="item.value"
+    ></el-option>
+  </el-select>
 </template>
 <script setup>
-import { onMounted, ref } from "vue";
+import { ref,onMounted } from "vue";
 
 const { schemaKey, schema } = defineProps({
   schemaKey: String,
@@ -21,8 +28,9 @@ const getValue = () => {
 };
 
 const reset = () => {
-  dtoValue.value = schema?.option?.default;
+  dtoValue.value = schema?.option?.default ?? schema.option?.enumList[0]?.value;
 };
+
 
 onMounted(() => {
   reset();

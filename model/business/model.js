@@ -19,19 +19,68 @@ module.exports = {
                 width: 300,
                 "show-overflow-tooltip": true,
               },
+              editFormOption: {
+                comType: "input",
+                disabled: true,
+              },
+              detailPanelOption: {},
             },
             product_name: {
               type: "string",
               label: "商品名称",
+              maxLength: 10,
+              minLength: 3,
               tableOption: {
                 width: 200,
               },
+              searchOption: {
+                comType: "input",
+              },
+              // searchOption: {
+              //   comType: "dynamicSelect",
+              //   api: "/api/proj/product_enum/list",
+              // },
+              createFormOption: {
+                comType: "input",
+                default: "这是个Default ",
+              },
+              editFormOption: {
+                comType: "input",
+              },
+              detailPanelOption: {},
             },
             price: {
               type: "number",
               label: "价格",
               tableOption: {
-                width:200,
+                width: 200,
+              },
+              searchOption: {
+                comType: "select",
+                enumList: [
+                  {
+                    label: "全部",
+                    value: -1,
+                  },
+                  {
+                    label: "￥39.9",
+                    value: 39.9,
+                  },
+                  {
+                    label: "￥119.9",
+                    value: 119.9,
+                  },
+                  {
+                    label: "￥239.9",
+                    value: 239.9,
+                  },
+                ],
+              },
+              createFormOption: {
+                comType: "inputNumber",
+              },
+              editFormOption: {
+                comType: "inputNumber",
               },
             },
             inventory: {
@@ -40,27 +89,81 @@ module.exports = {
               tableOption: {
                 width: 200,
               },
+              createFormOption: {
+                comType: "select",
+                enumList: [
+                  {
+                    label: "100",
+                    value: 100,
+                  },
+                  {
+                    label: "200",
+                    value: 200,
+                  },
+                  {
+                    label: "300",
+                    value: 300,
+                  },
+                ],
+              },
+              editFormOption: {
+                comType: "select",
+                enumList: [
+                  {
+                    label: "100",
+                    value: 100,
+                  },
+                  {
+                    label: "200",
+                    value: 200,
+                  },
+                  {
+                    label: "300",
+                    value: 300,
+                  },
+                ],
+              },
+              detailPanelOption: {},
             },
             create_time: {
               type: "string",
               label: "创建时间",
               tableOption: {},
+              searchOption: {
+                comType: "dateRange",
+              },
+              detailPanelOption: {},
             },
           },
+          required: ["product_name"],
         },
         tableConfig: {
           headerButtons: [
             {
               label: "新增商品",
               eventKey: "showComponent",
+              eventOption: {
+                comName: "createForm",
+              },
               type: "primary",
               plain: true,
             },
           ],
           rowButtons: [
             {
+              label: "查看详情",
+              eventKey: "showComponent",
+              eventOption: {
+                comName: "detailPanel",
+              },
+              type: "primary",
+            },
+            {
               label: "修改",
               eventKey: "showComponent",
+              eventOption: {
+                comName: "editForm",
+              },
               type: "warning",
             },
             {
@@ -74,6 +177,21 @@ module.exports = {
               type: "danger",
             },
           ],
+        },
+        componentConfig: {
+          createForm: {
+            title: "新增商品",
+            saveBtnText: "新增商品",
+          },
+          editForm: {
+            mainKey: "product_id",
+            title: "修改商品",
+            saveBtnText: "修改商品",
+          },
+          detailPanel: {
+            mainKey: "product_id",
+            title: "商品详情",
+          },
         },
       },
     },

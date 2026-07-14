@@ -8,7 +8,7 @@
     >
       <template v-for="(schemaItem, key) in schema.properties">
         <el-table-column
-          v-if="schemaItem?.option?.visiable !== false"
+          v-if="schemaItem?.option?.visible !== false"
           :key="key"
           :prop="key"
           :label="schemaItem.label"
@@ -62,7 +62,7 @@ const props = defineProps({
             // 字段在 tabel 中的相关配置
             tableOption: {
             ...elTableColumnConfig, // 标准 el-table-column 配置
-            visiable: true, // 默认为 true（false或不配置 时，表示不在表单中显示）
+            visible: true, // 默认为 true（false或不配置 时，表示不在表单中显示）
             },
         },
         }
@@ -73,6 +73,10 @@ const props = defineProps({
    * 表格数据源 api
    */
   api: String,
+  /**
+   * api 请求参数，请求 API 时携带
+   */
+  apiParams:Object,
   /**
    * buttons 操作按钮相关配置，结构如下：
    * [{
@@ -85,7 +89,7 @@ const props = defineProps({
   buttons: Array,
 });
 
-const { schema, api, buttons } = toRefs(props);
+const { schema, api, apiParams, buttons } = toRefs(props);
 
 const emit = defineEmits(["operate"]);
 
@@ -104,7 +108,7 @@ const pageSize = ref(50);
 const total = ref(0);
 
 watch(
-  [schema, api],
+  [schema, api, apiParams],
   () => {
     initData();
   },
@@ -140,6 +144,7 @@ const fetchTableData = async () => {
     method: "get",
     url: `${api.value}/list`,
     query: {
+      ...apiParams.value,
       page: currentPage.value,
       size: pageSize.value,
     },
